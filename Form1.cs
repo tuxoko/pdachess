@@ -171,8 +171,9 @@ namespace pdachess
 
         private void gamebox_MouseDown(object sender, MouseEventArgs e)
         {
-            int po_x = e.X / 60;
-            int po_y = e.Y / 60;
+            int po_x = e.X / (Screen.PrimaryScreen.WorkingArea.Width/8);
+            int po_y = e.Y / (Screen.PrimaryScreen.WorkingArea.Width/8);
+            
             Point p = new Point(po_x, po_y);
             try
             {
@@ -259,6 +260,11 @@ namespace pdachess
                 default:
                     break;
             }
+        }
+
+        private void OnMenuExit(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

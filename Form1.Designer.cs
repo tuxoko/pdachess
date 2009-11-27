@@ -31,7 +31,13 @@
         {
             this.mainMenu1 = new System.Windows.Forms.MainMenu();
             this.gamebox = new System.Windows.Forms.PictureBox();
+            this.menuItem1 = new System.Windows.Forms.MenuItem();
+            this.menuItem2 = new System.Windows.Forms.MenuItem();
             this.SuspendLayout();
+            // 
+            // mainMenu1
+            // 
+            this.mainMenu1.MenuItems.Add(this.menuItem1);
             // 
             // gamebox
             // 
@@ -40,6 +46,16 @@
             this.gamebox.Size = new System.Drawing.Size(240, 240);
             this.gamebox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.gamebox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.gamebox_MouseDown);
+            // 
+            // menuItem1
+            // 
+            this.menuItem1.MenuItems.Add(this.menuItem2);
+            this.menuItem1.Text = "Menu";
+            // 
+            // menuItem2
+            // 
+            this.menuItem2.Text = "離開";
+            this.menuItem2.Click += new System.EventHandler(this.OnMenuExit);
             // 
             // Form1
             // 
@@ -59,6 +75,8 @@
         #endregion
 
         private System.Windows.Forms.PictureBox gamebox;
+        private System.Windows.Forms.MenuItem menuItem1;
+        private System.Windows.Forms.MenuItem menuItem2;
     }
 }
 
