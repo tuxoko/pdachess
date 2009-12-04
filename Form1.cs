@@ -108,7 +108,7 @@ namespace pdachess
                         this.Close();
                         break;
                     case("p"):
-                        MessageBox.Show(cmddata);
+                        //MessageBox.Show(cmddata);
                         if (cmd[1] == "1")
                         {
                             myside = "w";
@@ -120,11 +120,11 @@ namespace pdachess
                         opponent = cmd[2];
                         break;
                     case("play"):
-                        MessageBox.Show(cmddata);
+                        //MessageBox.Show(cmddata);
                         this.Invoke(new InvokeFunction(opponentmove), new object[] { cmd });
                         break;
                     case("draw"):
-                        MessageBox.Show(cmddata);
+                        //MessageBox.Show(cmddata);
                         if (cmd.Length == 1)
                         {
                             drawgameReply();
@@ -135,7 +135,7 @@ namespace pdachess
                         }
                         break;
                     case("gg"):
-                        MessageBox.Show(cmddata);
+                        //MessageBox.Show(cmddata);
                         MessageBox.Show("對方棄權了!");
                         win();
                         break;
