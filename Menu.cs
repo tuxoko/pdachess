@@ -62,7 +62,7 @@ namespace pdachess
             if (textBox1.Text == "")
             {
                 textBox1.Text = "在此輸入使用者名稱";
-            }
+			}
         }
     }
 }
