@@ -99,7 +99,6 @@ namespace pdachess
                 NetworkStream nets=_tcpl.GetStream();
                 nets.Read(data,0,1024);
                 string cmddata = Encoding.Unicode.GetString(data, 0, data.Length).TrimEnd('\0');
-                MessageBox.Show(cmddata);
                 string []cmd=cmddata.Split();
                 switch (cmd[0])
                 {
@@ -109,6 +108,7 @@ namespace pdachess
                         this.Close();
                         break;
                     case("p"):
+                        MessageBox.Show(cmddata);
                         if (cmd[1] == "1")
                         {
                             myside = "w";
@@ -120,9 +120,11 @@ namespace pdachess
                         opponent = cmd[2];
                         break;
                     case("play"):
+                        MessageBox.Show(cmddata);
                         this.Invoke(new InvokeFunction(opponentmove), new object[] { cmd });
                         break;
                     case("draw"):
+                        MessageBox.Show(cmddata);
                         if (cmd.Length == 1)
                         {
                             drawgameReply();
@@ -133,6 +135,7 @@ namespace pdachess
                         }
                         break;
                     case("gg"):
+                        MessageBox.Show(cmddata);
                         MessageBox.Show("對方棄權了!");
                         win();
                         break;
