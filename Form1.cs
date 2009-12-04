@@ -281,15 +281,15 @@ namespace pdachess
                 Point p = new Point(po_x, po_y);
                 if (possiblemove.Count != 0 && possiblemove.Contains(p))
                 {
-                    
-                    
+
+                    int chose_x = tokenChosed.getX();
+                    int chose_y = tokenChosed.getY();
+
                     enPassant = null;
                     string promote=move(t_map, po_x, po_y);
 
                     if (gamemode == "Network")
                     {
-                        int chose_x = tokenChosed.getX();
-                        int chose_y = tokenChosed.getY();
                         NetworkStream nets = _tcpl.GetStream();
                         string msg = string.Format("play " + opponent + " " + chose_x.ToString() + " " + chose_y.ToString() + " " + po_x.ToString() + " " + po_y.ToString() + " " + promote);
                         byte[] buffer = new byte[1024];
