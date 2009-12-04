@@ -58,6 +58,7 @@ namespace pdachess
         private string myside = null;
 
         private delegate void InvokeFunction(string []cmd);
+        private delegate void InvokeFunction2();
 
         public Form1(string gamemode,string text)
         {
@@ -104,8 +105,7 @@ namespace pdachess
                 {
                     case("e"):
                         MessageBox.Show("使用者名稱重複");
-                        this.Owner.Show();
-                        this.Close();
+                        this.Invoke(new InvokeFunction2(quit));
                         break;
                     case("p"):
                         //MessageBox.Show(cmddata);
@@ -127,17 +127,17 @@ namespace pdachess
                         //MessageBox.Show(cmddata);
                         if (cmd.Length == 1)
                         {
-                            drawgameReply();
+                            this.Invoke(new InvokeFunction2(drawgameReply));
                         }
                         else if (cmd[1] == "y")
                         {
-                            drawgame();
+                            this.Invoke(new InvokeFunction2(drawgame));
                         }
                         break;
                     case("gg"):
                         //MessageBox.Show(cmddata);
                         MessageBox.Show("對方棄權了!");
-                        win();
+                        this.Invoke(new InvokeFunction2(win));
                         break;
                     default:
                         break;
@@ -439,12 +439,15 @@ namespace pdachess
         {
             if (gamemode == "Network")
             {
-                
-                NetworkStream nets = _tcpl.GetStream();
-                string msg = string.Format("q ");
-                byte[] buffer = new byte[1024];
-                buffer = Encoding.Unicode.GetBytes(msg.ToCharArray());
-                nets.Write(buffer, 0, buffer.Length);
+                try
+                {
+                    NetworkStream nets = _tcpl.GetStream();
+                    string msg = string.Format("q ");
+                    byte[] buffer = new byte[1024];
+                    buffer = Encoding.Unicode.GetBytes(msg.ToCharArray());
+                    nets.Write(buffer, 0, buffer.Length);
+                }
+                catch { }
             }
             if (listenthr != null) listenthr.Abort();
             this.Owner.Show();
