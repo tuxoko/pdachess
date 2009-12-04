@@ -80,6 +80,8 @@
             this.textBox1.Size = new System.Drawing.Size(137, 21);
             this.textBox1.TabIndex = 1;
             this.textBox1.Text = "在此輸入使用者名稱";
+            this.textBox1.GotFocus += new System.EventHandler(this.textBox1_GotFocus);
+            this.textBox1.LostFocus += new System.EventHandler(this.textBox1_LostFocus);
             // 
             // Menu
             // 

@@ -25,13 +25,20 @@ namespace pdachess
 
         private void menuItem2_Click(object sender, EventArgs e)
         {
-            if ((textBox1.Text == "在此輸入使用者名稱") || (textBox1.Text == null))
+            if ((textBox1.Text == "在此輸入使用者名稱") || (textBox1.Text == null) || textBox1.Text.Contains(' '))
             {
                 MessageBox.Show("請輸入使用者名稱");
             }
             else
             {
                 Form1 gamelocal = new Form1("Network", textBox1.Text);
+                try
+                {
+                    gamelocal.Owner = this;
+                    gamelocal.Show();
+                    this.Hide();
+                }
+                catch { }
             }
         }
 
@@ -42,7 +49,20 @@ namespace pdachess
             gamelocal.Owner = this;
             gamelocal.Show();
             this.Hide();
-            
+        }
+
+        private void textBox1_GotFocus(object sender, EventArgs e)
+        {
+            if (textBox1.Text == "在此輸入使用者名稱")
+                textBox1.Text = "";
+        }
+
+        private void textBox1_LostFocus(object sender, EventArgs e)
+        {
+            if (textBox1.Text == "")
+            {
+                textBox1.Text = "在此輸入使用者名稱";
+			}
         }
     }
 }
