@@ -16,7 +16,7 @@ namespace pdachess
 {
     public partial class Form1 : Form
     {
-
+	//asdf
         //private Token pawn = null;
         Graphics g = null;
         private Bitmap chessboard = null;
