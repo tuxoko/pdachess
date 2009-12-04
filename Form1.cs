@@ -99,7 +99,7 @@ namespace pdachess
                 NetworkStream nets=_tcpl.GetStream();
                 nets.Read(data,0,1024);
                 string cmddata = Encoding.Unicode.GetString(data, 0, data.Length).TrimEnd('\0');
-                label2.Text = cmddata;
+                MessageBox.Show(cmddata);
                 string []cmd=cmddata.Split();
                 switch (cmd[0])
                 {
