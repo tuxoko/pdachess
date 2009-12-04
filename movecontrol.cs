@@ -50,48 +50,61 @@ namespace pdachess
             possiblemove.Clear();
             if (t.getSide() == "b")
             {
-                if (po_y < 7 && t_map[getIndex(po_x, po_y + 1)] == null)
+                if (po_y < 7)
                 {
-                    possiblemove.Add(new Point(po_x, po_y + 1));
-                    if (t.isFirstmove())
+                    if (t_map[getIndex(po_x, po_y + 1)] == null)
                     {
-                        if (po_y < 6 && t_map[getIndex(po_x, po_y + 2)] == null)
-                            possiblemove.Add(new Point(po_x, po_y + 2));
+                        possiblemove.Add(new Point(po_x, po_y + 1));
+                        if (t.isFirstmove())
+                        {
+                            if (po_y < 6 && t_map[getIndex(po_x, po_y + 2)] == null)
+                                possiblemove.Add(new Point(po_x, po_y + 2));
+                        }
                     }
-                }
 
-                if (t_map[getIndex(po_x - 1, po_y + 1)] != null && t_map[getIndex(po_x - 1, po_y + 1)].getSide() == "w")
-                {
-                    possiblemove.Add(new Point(po_x - 1, po_y + 1));
-                }
+                    if (po_x>0 && t_map[getIndex(po_x - 1, po_y + 1)] != null && t_map[getIndex(po_x - 1, po_y + 1)].getSide() == "w")
+                    {
+                        possiblemove.Add(new Point(po_x - 1, po_y + 1));
+                    }
 
-                if (t_map[getIndex(po_x + 1, po_y + 1)] != null && t_map[getIndex(po_x + 1, po_y + 1)].getSide() == "w")
-                {
-                    possiblemove.Add(new Point(po_x + 1, po_y + 1));
+                    if (po_x<7 && t_map[getIndex(po_x + 1, po_y + 1)] != null && t_map[getIndex(po_x + 1, po_y + 1)].getSide() == "w")
+                    {
+                        possiblemove.Add(new Point(po_x + 1, po_y + 1));
+                    }
+                    if (enPassant != null && enPassant.getSide() != t.getSide() && enPassant.getY() == po_y && Math.Abs(enPassant.getX() - po_x) == 1)
+                    {
+                        possiblemove.Add(new Point(enPassant.getX(), enPassant.getY() + 1));
+                    }
                 }
             }
             else
             {
-                if (po_y >=0 && t_map[getIndex(po_x, po_y - 1)] == null)
+                if (po_y > 0)
                 {
-                    possiblemove.Add(new Point(po_x, po_y - 1));
-                    if (t.isFirstmove())
+                    if (t_map[getIndex(po_x, po_y - 1)] == null)
                     {
-                        if (po_y > 1 && t_map[getIndex(po_x, po_y - 2)] == null)
-                            possiblemove.Add(new Point(po_x, po_y - 2));
+                        possiblemove.Add(new Point(po_x, po_y - 1));
+                        if (t.isFirstmove())
+                        {
+                            if (po_y > 1 && t_map[getIndex(po_x, po_y - 2)] == null)
+                                possiblemove.Add(new Point(po_x, po_y - 2));
+                        }
+                    }
+
+                    if (po_x>0 && t_map[getIndex(po_x - 1, po_y - 1)] != null && t_map[getIndex(po_x - 1, po_y - 1)].getSide() == "b")
+                    {
+                        possiblemove.Add(new Point(po_x - 1, po_y - 1));
+                    }
+                    if (po_x<7 && t_map[getIndex(po_x + 1, po_y - 1)] != null && t_map[getIndex(po_x + 1, po_y - 1)].getSide() == "b")
+                    {
+                        possiblemove.Add(new Point(po_x + 1, po_y - 1));
+                    }
+                    if (enPassant != null && enPassant.getSide() != t.getSide() && enPassant.getY() == po_y && Math.Abs(enPassant.getX() - po_x) == 1)
+                    {
+                        possiblemove.Add(new Point(enPassant.getX(), enPassant.getY() - 1));
                     }
                 }
-
-                if (t_map[getIndex(po_x - 1, po_y - 1)] != null && t_map[getIndex(po_x - 1, po_y - 1)].getSide() == "b")
-                {
-                    possiblemove.Add(new Point(po_x - 1, po_y - 1));
-                }
-                if (t_map[getIndex(po_x + 1, po_y - 1)] != null && t_map[getIndex(po_x + 1, po_y - 1)].getSide() == "b")
-                {
-                    possiblemove.Add(new Point(po_x + 1, po_y - 1));
-                }
             }
-            drawScreen();
         }
 
         private void movecontrol_Bishop(Bishop t)
@@ -119,7 +132,6 @@ namespace pdachess
                     }
                 }
             }
-            drawScreen();
         }
         private void movecontrol_Knight(Knight t)
         {
@@ -144,7 +156,6 @@ namespace pdachess
                     }
                 }
             }
-            drawScreen();
         }
         private void movecontrol_Castle(Castle t)
         {
@@ -170,7 +181,6 @@ namespace pdachess
                     }
                 }
             }
-            drawScreen();
         }
         private void movecontrol_Queen(Queen t)
         {
@@ -215,8 +225,6 @@ namespace pdachess
                     }
                 }
             }
-
-            drawScreen();
         }
         private void movecontrol_King(King t)
         {
@@ -241,11 +249,11 @@ namespace pdachess
                     }
                 }
             }
-            if(t.isFirstmove())
+            if(!ischeck(t_map,t.getSide()) && t.isFirstmove())
             {
                 try
                 {
-                    if (t_map[getIndex(0, po_y)].getType() == "Castle" && t_map[getIndex(0, po_y)].isFirstmove())
+                    if (t_map[getIndex(0, po_y)].getType() == "Castle" && t_map[getIndex(0, po_y)].getSide()==t.getSide() && t_map[getIndex(0, po_y)].isFirstmove())
                     {
                         bool block = false;
                         for (int i = 1; i < po_x; i++)
@@ -257,13 +265,25 @@ namespace pdachess
                             }
                         }
                         if (!block)
-                            possiblemove.Add(new Point(po_x - 2, po_y));
+                        {
+                            Token[] map = map_clone(t_map);
+                            Token temp=tokenChosed;
+                            Token tempEnPassant=enPassant;
+                            tokenChosed=map[getIndex(po_x,po_y)];
+                            move(map, po_x - 1, po_y);
+                            if (!ischeck(map,t.getSide()))
+                            {
+                                possiblemove.Add(new Point(po_x - 2, po_y));
+                            }
+                            enPassant = tempEnPassant;
+                            tokenChosed = temp;
+                        }
                     }
                 }
                 catch { }
                 try
                 {
-                    if (t_map[getIndex(7, po_y)].getType() == "Castle" && t_map[getIndex(7, po_y)].isFirstmove())
+                    if (t_map[getIndex(7, po_y)].getType() == "Castle" && t_map[getIndex(0, po_y)].getSide() == t.getSide() && t_map[getIndex(7, po_y)].isFirstmove())
                     {
                         bool block = false;
                         for (int i = po_x + 1; i < 7; i++)
@@ -275,13 +295,65 @@ namespace pdachess
                             }
                         }
                         if (!block)
-                            possiblemove.Add(new Point(po_x + 2, po_y));
+                        {
+                            Token[] map = map_clone(t_map);
+                            Token temp = tokenChosed;
+                            Token tempEnPassant = enPassant;
+                            tokenChosed = map[getIndex(po_x, po_y)];
+                            move(map, po_x + 1, po_y);
+                            if (!ischeck(map,t.getSide()))
+                            {
+                                possiblemove.Add(new Point(po_x + 2, po_y));
+                            }
+                            enPassant = tempEnPassant;
+                            tokenChosed = temp;
+                        }
                     }
                 }
                 catch { }
             }
-            drawScreen();
         }
-        
+
+        //private delegate void InvokeFunction2(Token[] tmap, int a, int b, string c);
+        //private delegate void InvokeFunction3();
+
+        private void opponentmove(string [] cmds)
+        {
+            
+            int chose_x = int.Parse(cmds[1]);
+            int chose_y = int.Parse(cmds[2]);
+            int dest_x = int.Parse(cmds[3]);
+            int dest_y = int.Parse(cmds[4]);
+            string promote = (cmds.Length > 5) ? cmds[5] : "";
+            tokenChosed = t_map[getIndex(chose_x, chose_y)] as Token;
+            //MessageBox.Show(tokenChosed.getType());
+            enPassant = null;
+
+            move(t_map,dest_x,dest_y,promote);
+
+            tokenChosed = null;
+            possiblemove.Clear();
+
+            drawScreen();
+            whosturn = (whosturn == "w") ? "b" : "w";
+            label1.Text = (whosturn == "w") ? "White's turn" : "Black's turn";
+            if (ischeck(t_map, whosturn))
+            {
+                if (ismate(whosturn))
+                {
+                    MessageBox.Show("Checkmate!");
+                    lose();
+                }
+                else
+                {
+                    MessageBox.Show("Check!");
+                }
+            }
+            else if (ismate(whosturn))
+            {
+                MessageBox.Show("Stalemate!");
+                drawgame();
+            }
+        }
     }
 }

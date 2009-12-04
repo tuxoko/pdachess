@@ -9,9 +9,9 @@ namespace pdachess
 {
     class Token
     {
-        private int po_x, po_y;
-        private Image img_l = null, img_d = null, img_l_p = null, img_d_p = null, img_l_s = null, img_d_s = null;
-        private string side;
+        protected int po_x, po_y;
+        protected Image img_l = null, img_d = null, img_l_p = null, img_d_p = null, img_l_s = null, img_d_s = null;
+        protected string side;
         private bool initial;
         public Token(int x, int y, string side, Image img_l, Image img_d, Image img_l_p, Image img_d_p, Image img_l_s, Image img_d_s)
         {
@@ -68,6 +68,13 @@ namespace pdachess
             return po_y;
         }
         public bool isFirstmove() { return initial; }
+
+
+        public virtual object Clone()
+        {
+            return null;
+        }
+
     }
 
     class Pawn:Token
@@ -81,7 +88,13 @@ namespace pdachess
         public override string getType()
         {
             return "Pawn";
-        }    
+        }
+
+        public override object Clone()
+        {
+            return new Pawn(po_x, po_y, side, img_l, img_d, img_l_p, img_d_p, img_l_s, img_d_s);
+        }
+
     }
 
     class Knight : Token
@@ -94,6 +107,12 @@ namespace pdachess
         {
             return "Knight";
         }
+
+        public override object Clone()
+        {
+            return new Knight(po_x, po_y, side, img_l, img_d, img_l_p, img_d_p, img_l_s, img_d_s);
+        }
+
     }
 
     class Queen : Token
@@ -106,6 +125,12 @@ namespace pdachess
         {
             return "Queen";
         }
+
+        public override object Clone()
+        {
+            return new Queen(po_x, po_y, side, img_l, img_d, img_l_p, img_d_p, img_l_s, img_d_s);
+        }
+
     }
 
     class Castle : Token
@@ -118,6 +143,12 @@ namespace pdachess
         {
             return "Castle";
         }
+
+        public override object Clone()
+        {
+            return new Castle(po_x, po_y, side, img_l, img_d, img_l_p, img_d_p, img_l_s, img_d_s);
+        }
+
     }
 
     class Bishop : Token
@@ -130,6 +161,12 @@ namespace pdachess
         {
             return "Bishop";
         }
+
+        public override object Clone()
+        {
+            return new Bishop(po_x, po_y, side, img_l, img_d, img_l_p, img_d_p, img_l_s, img_d_s);
+        }
+
     }
 
     class King : Token
@@ -143,7 +180,11 @@ namespace pdachess
         {
             return "King";
         }
-        
+
+        public override object Clone()
+        {
+            return new King(po_x, po_y, side, img_l, img_d, img_l_p, img_d_p, img_l_s, img_d_s);
+        }
 
     }
 
