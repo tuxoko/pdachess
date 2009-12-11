@@ -20,6 +20,7 @@ namespace pdachess
         //private Token pawn = null;
         Graphics g = null;
         private Bitmap chessboard = null;
+        private Bitmap loading = null;
    /*     private Image pawn_p = null;
         private Image bishop_p = null;
         private Image knight_p = null;
@@ -75,13 +76,15 @@ namespace pdachess
                     _tcpl.Connect(serverhost);
                     NetworkStream nets = _tcpl.GetStream();
 
-                    string msg = string.Format("l "+username);
+                    string msg = string.Format("l " + username);
                     byte[] buffer = Encoding.Unicode.GetBytes(msg);
-                    nets.Write(buffer,0,buffer.Length);
+                    nets.Write(buffer, 0, buffer.Length);
 
-                    
+                    this.Invoke(new InvokeFunction2(showLoading));
+
                     listenthr = new Thread(new ThreadStart(listenThread));
                     listenthr.Start();
+
                 }
                 catch
                 {
@@ -90,6 +93,19 @@ namespace pdachess
                     this.Close();
                 }
             }
+            else
+            {
+                InitializeChessBoard();
+            }
+        }
+
+        private void showLoading()
+        {
+            label1.Text = null;
+            label2.Text = null;
+            loading=Resources.loading_wh;
+            gamebox.Image = loading;
+            gamebox.Refresh();
         }
 
         private void listenThread()
@@ -108,7 +124,7 @@ namespace pdachess
                         this.Invoke(new InvokeFunction2(quit));
                         break;
                     case("p"):
-                        //MessageBox.Show(cmddata);
+                        //MessageBox.Show(cmddata);                    
                         if (cmd[1] == "1")
                         {
                             myside = "w";
@@ -118,6 +134,7 @@ namespace pdachess
                             myside = "b";
                         }
                         opponent = cmd[2];
+                        this.Invoke(new InvokeFunction2(InitializeChessBoard));
                         break;
                     case("play"):
                         //MessageBox.Show(cmddata);
@@ -150,14 +167,20 @@ namespace pdachess
             InitializeComponent(); 
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void InitializeChessBoard()
         {
             //loading all image files
             setTokenmoves();
             loadImage();
             initTokens();
             drawScreen();
-
+            label1.Text = "White's turn";
+            if (gamemode == "Network")
+            {
+                label2.Text = myside;
+            }
+            else
+                label2.Text = null;
         }
         private void loadImage()
         {

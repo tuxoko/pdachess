@@ -332,6 +332,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Knight_w_l_s.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\loading.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\loading_wh.bmp" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CompactFramework.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
